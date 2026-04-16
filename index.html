@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gayatri & Raj - Wedding Invitation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Opening Screen - Wedding Card Style -->
+    <div id="opening-screen" class="opening-screen">
+        <div class="wedding-card-container">
+            <div class="wedding-card" id="wedding-card">
+                <!-- Card Front -->
+                <div class="card-front">
+                    <div class="card-border">
+                        <div class="card-corner top-left">❦</div>
+                        <div class="card-corner top-right">❦</div>
+                        <div class="card-corner bottom-left">❦</div>
+                        <div class="card-corner bottom-right">❦</div>
+                        
+                        <div class="card-content-front">
+                            <div class="om-symbol">ॐ</div>
+                            <div class="ganesh-icon">🙏</div>
+                            <h1 class="card-title">Wedding Invitation</h1>
+                            <div class="card-names">
+                                <span class="card-name">Gayatri</span>
+                                <span class="card-with">&</span>
+                                <span class="card-name">Raj</span>
+                            </div>
+                            <div class="card-divider">
+                                <span class="divider-line"></span>
+                                <span class="divider-icon">💍</span>
+                                <span class="divider-line"></span>
+                            </div>
+                            <p class="card-subtitle">Request the honor of your presence</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card Inside (Revealed on open) -->
+                <div class="card-inside">
+                    <div class="inside-content">
+                        <p class="blessing-text">With the blessings of Almighty</p>
+                        <p class="invitation-text">We invite you to celebrate the beginning of our new journey together</p>
+                        <div class="inside-date">21 April 2026</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Open Button -->
+            <button id="open-btn" class="open-card-btn">
+                <span class="btn-text">Click to Open</span>
+                <span class="btn-arrow">→</span>
+            </button>
+        </div>
+        
+        <div class="opening-particles"></div>
+    </div>
+
+    <!-- Fireworks Canvas -->
+    <canvas id="fireworks-canvas"></canvas>
+
+    <!-- Background Particles -->
+    <div id="particles-container"></div>
+
+    <!-- Cursor Sparkle -->
+    <div id="cursor-sparkle"></div>
+
+    <!-- Music Control -->
+    <div id="music-control" class="music-control hidden">
+        <button id="mute-btn" class="music-btn">
+            <span id="music-icon">🔊</span>
+        </button>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="wedding-music" loop>
+        <source src="assets/I_Think_They_Call_This_Love__Cover_(256k).mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main-content hidden">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-image-container">
+                <img src="assets/couple1.jpg" alt="Gayatri and Raj" class="hero-image">
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="hero-content">
+                <div class="hero-names">
+                    <span class="name bride">Gayatri</span>
+                    <span class="heart-icon">❤️</span>
+                    <span class="name groom">Raj</span>
+                </div>
+                <p class="hero-quote">"Two families, one bond, a beautiful beginning..."</p>
+                <div class="scroll-indicator">
+                    <span class="scroll-text">Scroll to explore</span>
+                    <div class="scroll-arrow">↓</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Countdown Section -->
+        <section class="countdown-section">
+            <div class="section-container">
+                <h2 class="section-title">Counting Down to Our Special Day</h2>
+                <div class="countdown-container">
+                    <div class="countdown-item">
+                        <span id="days" class="countdown-number">00</span>
+                        <span class="countdown-label">Days</span>
+                    </div>
+                    <div class="countdown-separator">:</div>
+                    <div class="countdown-item">
+                        <span id="hours" class="countdown-number">00</span>
+                        <span class="countdown-label">Hours</span>
+                    </div>
+                    <div class="countdown-separator">:</div>
+                    <div class="countdown-item">
+                        <span id="minutes" class="countdown-number">00</span>
+                        <span class="countdown-label">Minutes</span>
+                    </div>
+                    <div class="countdown-separator">:</div>
+                    <div class="countdown-item">
+                        <span id="seconds" class="countdown-number">00</span>
+                        <span class="countdown-label">Seconds</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scratch to Reveal Date Section -->
+        <section class="date-reveal-section">
+            <div class="section-container">
+                <h2 class="section-title">Save the Date</h2>
+                <div class="scratch-container">
+                    <div class="scratch-card">
+                        <div class="scratch-reveal">
+                            <div class="reveal-icon">📅</div>
+                            <p class="reveal-date">21 April 2026</p>
+                            <p class="reveal-time">8:00 PM - 8:30 PM</p>
+                            <p class="reveal-venue">Tuesday</p>
+                        </div>
+                        <canvas id="scratch-canvas" class="scratch-canvas"></canvas>
+                        <div class="scratch-hint">
+                            <span class="hint-icon">👆</span>
+                            <span>Scratch to reveal</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Journey Section -->
+        <section class="love-story-section">
+            <div class="section-container">
+                <h2 class="section-title">Our Journey Begins</h2>
+                <div class="story-content">
+                    <p class="story-text fade-in">
+                        In the beautiful tradition of our culture, two families came together with faith and hope. 
+                        What began as a meeting of hearts blessed by elders has blossomed into a promise of forever.
+                    </p>
+                    <p class="story-text fade-in">
+                        With the blessings of our parents and the support of our loved ones, 
+                        we embark on this sacred journey of marriage. We invite you to be part of our new beginning.
+                    </p>
+                    <div class="quote-box fade-in">
+                        <span class="quote-mark">"</span>
+                        <p class="quote-text">Marriage is not just the union of two souls, but the coming together of two families, 
+                        two histories, and two futures into one beautiful story.</p>
+                        <span class="quote-mark closing">"</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Infinite Marquee Gallery Section -->
+        <section class="gallery-section">
+            <div class="section-container">
+                <h2 class="section-title">Precious Moments</h2>
+                <div class="marquee-container">
+                    <div class="marquee-track">
+                        <!-- First set of images -->
+                        <div class="marquee-item">
+                            <img src="assets/couple1.jpg" alt="Gayatri and Raj">
+                            <div class="marquee-overlay">
+                                <span class="marquee-heart">💕</span>
+                            </div>
+                        </div>
+                        <div class="marquee-item">
+                            <img src="assets/couple2.jpg" alt="Gayatri and Raj">
+                            <div class="marquee-overlay">
+                                <span class="marquee-heart">💕</span>
+                            </div>
+                        </div>
+                        <div class="marquee-item">
+                            <img src="assets/couple3.jpg" alt="Gayatri and Raj">
+                            <div class="marquee-overlay">
+                                <span class="marquee-heart">💕</span>
+                            </div>
+                        </div>
+                        <div class="marquee-item">
+                            <img src="assets/couple4.jpg" alt="Gayatri and Raj">
+                            <div class="marquee-overlay">
+                                <span class="marquee-heart">💕</span>
+                            </div>
+                        </div>
+                        <!-- Duplicate set for seamless loop -->
+                        <div class="marquee-item">
+                            <img src="assets/couple1.jpg" alt="Gayatri and Raj">
+                            <div class="marquee-overlay">
+                                <span class="marquee-heart">💕</span>
+                            </div>
+                        </div>
+                        <div class="marquee-item">
+                            <img src="assets/couple2.jpg" alt="Gayatri and Raj">
+                            <div class="marquee-overlay">
+                                <span class="marquee-heart">💕</span>
+                            </div>
+                        </div>
+                        <div class="marquee-item">
+                            <img src="assets/couple3.jpg" alt="Gayatri and Raj">
+                            <div class="marquee-overlay">
+                                <span class="marquee-heart">💕</span>
+                            </div>
+                        </div>
+                        <div class="marquee-item">
+                            <img src="assets/couple4.jpg" alt="Gayatri and Raj">
+                            <div class="marquee-overlay">
+                                <span class="marquee-heart">💕</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Wedding Details Section -->
+        <section class="details-section">
+            <div class="section-container">
+                <h2 class="section-title">Wedding Details</h2>
+                <div class="details-grid">
+                    <div class="detail-card fade-in">
+                        <div class="detail-icon">📅</div>
+                        <h3 class="detail-title">Date</h3>
+                        <p class="detail-text">21 April 2026</p>
+                        <p class="detail-subtext">Tuesday</p>
+                    </div>
+                    <div class="detail-card fade-in">
+                        <div class="detail-icon">🕐</div>
+                        <h3 class="detail-title">Time</h3>
+                        <p class="detail-text">8:00 PM - 8:30 PM</p>
+                        <p class="detail-subtext">Muhurat</p>
+                    </div>
+                    <div class="detail-card fade-in">
+                        <div class="detail-icon">📍</div>
+                        <h3 class="detail-title">Venue</h3>
+                        <p class="detail-text">Radhakrishna Park</p>
+                        <p class="detail-subtext">Rahata, Maharashtra</p>
+                    </div>
+                </div>
+                <div class="location-btn-container fade-in">
+                    <a href="https://maps.google.com" target="_blank" class="location-btn">
+                        <span class="btn-icon">🗺️</span>
+                        <span>View Location</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Message Section -->
+        <section class="message-section">
+            <div class="section-container">
+                <h2 class="section-title">Send Your Blessings</h2>
+                <p class="message-subtitle">Your good wishes mean the world to us</p>
+                
+                <div class="message-form-container fade-in">
+                    <form id="blessing-form" class="blessing-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="guest-name">Your Name</label>
+                                <input type="text" id="guest-name" name="name" placeholder="Enter your name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="guest-email">Your Email</label>
+                                <input type="email" id="guest-email" name="email" placeholder="Enter your email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="guest-message">Your Message / Good Wishes</label>
+                            <textarea id="guest-message" name="message" rows="4" placeholder="Share your blessings and good wishes for our new journey..." required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <span class="btn-icon">💌</span>
+                            <span>Send Blessings</span>
+                        </button>
+                    </form>
+                    
+                    <!-- Success Message -->
+                    <div id="success-message" class="success-message hidden">
+                        <div class="success-icon">✨</div>
+                        <h3>Thank You!</h3>
+                        <p>Your blessings have been received. We are truly grateful!</p>
+                    </div>
+                </div>
+                
+                <!-- Decorative Elements -->
+                <div class="message-decoration">
+                    <span class="deco-flower">🌸</span>
+                    <span class="deco-flower">🌺</span>
+                    <span class="deco-flower">🌸</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer Section -->
+        <footer class="footer-section">
+            <div class="footer-content">
+                <div class="footer-names">
+                    <span class="footer-name">Gayatri</span>
+                    <span class="footer-heart">❤️</span>
+                    <span class="footer-name">Raj</span>
+                </div>
+                <p class="footer-text">Your presence will make our celebration complete!</p>
+                <div class="footer-decoration">
+                    <span class="deco-line"></span>
+                    <span class="deco-icon">💍</span>
+                    <span class="deco-line"></span>
+                </div>
+                <p class="footer-date">21.04.2026</p>
+            </div>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
