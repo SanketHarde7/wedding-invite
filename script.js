@@ -215,7 +215,7 @@ function animateFireworks() {
         }
         return false;
     });
-    
+    ctx.globalCompositeOperation = 'lighter';
     particles = particles.filter(p => {
         if (p.alpha > 0) {
             p.update();
