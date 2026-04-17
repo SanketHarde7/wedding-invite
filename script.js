@@ -22,6 +22,7 @@ const successMessage = document.getElementById('success-message');
 // State
 let isMusicPlaying = false;
 let fireworksInterval = null;
+let isFireworksAnimating = false;
 let isScratched = false;
 
 // ===== WEDDING CARD OPENING =====
@@ -204,9 +205,15 @@ class Particle {
 }
 
 function animateFireworks() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+    isFireworksAnimating = true;
+
+    // Bug 2 Fix: ALWAYS reset to source-over before fill
+    // 'lighter' was leaking from previous frame, making fillRect (black) a no-op
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
     ctx.fillRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
-    
+
+    // Draw rocket trails with source-over
     fireworks = fireworks.filter(fw => {
         if (!fw.exploded) {
             fw.update();
@@ -215,6 +222,8 @@ function animateFireworks() {
         }
         return false;
     });
+
+    // Draw explosion particles with lighter (additive glow)
     ctx.globalCompositeOperation = 'lighter';
     particles = particles.filter(p => {
         if (p.alpha > 0) {
@@ -224,23 +233,39 @@ function animateFireworks() {
         }
         return false;
     });
-    
-    if (fireworks.length > 0 || particles.length > 0) {
+
+    // Bug 1 Fix: Keep loop alive while interval is still running,
+    // so newly added fireworks get rendered even when arrays are briefly empty
+    if (fireworksInterval !== null || fireworks.length > 0 || particles.length > 0) {
         requestAnimationFrame(animateFireworks);
+    } else {
+        isFireworksAnimating = false;
+        ctx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
     }
 }
 
 function startFireworks() {
-    animateFireworks();
+    // Bug 1 Fix: Push first firework immediately so the animation loop
+    // has something to render on frame 1 and doesn't exit early
+    fireworks.push(new Firework());
+
     fireworksInterval = setInterval(() => {
         if (fireworks.length < 3) {
             fireworks.push(new Firework());
         }
     }, 300);
+
+    // Guard: only start loop if not already running (prevents double loops)
+    if (!isFireworksAnimating) {
+        animateFireworks();
+    }
 }
 
 function stopFireworks() {
     clearInterval(fireworksInterval);
+    // Set to null so the animation loop knows interval is done
+    // and can exit cleanly once remaining particles fade out
+    fireworksInterval = null;
 }
 
 // ===== BACKGROUND PARTICLES =====
@@ -580,6 +605,11 @@ document.head.appendChild(rippleStyle);
 
 // ===== INITIALIZE =====
 document.addEventListener('DOMContentLoaded', () => {
+    // Bug 3 Fix: Auto-trigger fireworks on page load for 3 seconds
+    // coming from bottom of screen — visible immediately on opening screen
+    startFireworks();
+    setTimeout(stopFireworks, 3000);
+
     // Preload images
     const images = ['assets/couple1.jpg', 'assets/couple2.jpg', 'assets/couple3.jpg', 'assets/couple4.jpg'];
     images.forEach(src => {
